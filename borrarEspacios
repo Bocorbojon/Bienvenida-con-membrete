@@ -1,0 +1,23 @@
+var ss = SpreadsheetApp.getActiveSpreadsheet();
+function trimSpacesInSelectedCells() {
+  var sheet = ss.getActiveSheet();
+  var activeRange = sheet.getActiveRange();
+  for (var cellRow = 1; cellRow <= activeRange.getHeight(); cellRow++) {
+    for (var cellColumn = 1; cellColumn <= activeRange.getWidth(); cellColumn++) {
+      cell = activeRange.getCell(cellRow, cellColumn);
+      cellFormula = cell.getFormula();
+      if (cellFormula[0] != "=") {
+        cellValue = cell.getValue();
+        cell.setValue(String(cellValue).trim());
+      }
+    }
+  }
+}
+
+function onOpen() {
+  var entries = [{
+    name : "Quitar espacios",
+    functionName : "trimSpacesInSelectedCells"
+  }];
+  ss.addMenu("Trim Cells", entries);
+}
